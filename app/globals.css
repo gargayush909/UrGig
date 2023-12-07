@@ -1,0 +1,160 @@
+@tailwind base;
+
+html {
+  scroll-behavior: smooth;
+  word-break: break-word;
+}
+
+::selection {
+  color: hsl(var(--background));
+  background: hsl(var(--primary));
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--background)) hsl(var(--foreground));
+}
+
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary));
+  border-radius: 10px;
+  border: 3px solid hsl(var(--background));
+}
+
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+ 
+  :root {
+
+    --background: 120 100% 100%; 
+    --foreground: 0 0 5%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 163, 90%, 47%;
+    --primary-foreground: var(--foreground);
+ 
+    --secondary: 132 100% 84%;
+    --secondary-foreground: var(--foreground);
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 152 84% 45%;
+    --accent-foreground: var(--foreground);
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: var(--accent);
+    --input: var(--primary);
+    --ring: var(--accent);
+    --radius: 0.5rem;
+
+  }
+
+  .dark {
+    
+    --background: 261 100% 3%; 
+    --foreground: 263 100% 97%;
+
+    --card: var(--secondary);
+    --card-foreground: var(--foreground);
+ 
+    --popover: var(--secondary);
+    --popover-foreground: var(--foreground);
+ 
+    --primary: 269 91% 40%;
+    --primary-foreground: var(--foreground);
+ 
+    --secondary: 259 61% 11%;
+    --secondary-foreground: var(--foreground);
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 265 91% 59%;
+    --accent-foreground: var(--foreground);
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: var(--accent);
+    --input: var(--primary);
+    --ring: var(--accent);
+    --radius: 0.5rem;
+  }
+   
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* h2 {
+    @apply py-4 text-4xl font-black text-gray-800;
+  }
+
+  .button {
+    @apply custom-focus rounded-full border-2 border-green-400 bg-white px-8 py-2 font-bold text-green-400 hover:bg-green-400 hover:text-white focus:bg-green-400 focus:text-white;
+  }
+
+  .button-inverse {
+    @apply custom-focus rounded-full border-2 border-white bg-green-400 px-8 py-2 font-bold text-white hover:border-green-400 hover:bg-white hover:text-green-400 focus:border-green-400 focus:bg-white focus:text-green-400;
+  }
+
+  .card {
+    @apply column min-w-[20rem] items-center gap-8 rounded-2xl bg-white py-8 px-4 shadow-md sm:min-w-[24rem] sm:px-10;
+  }
+
+  .column {
+    @apply flex flex-col items-start justify-center gap-4;
+  }
+
+  .custom-focus {
+    @apply focus:border-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2;
+  }
+
+  .heading {
+    @apply text-lg font-semibold text-gray-700;
+  }
+
+  .highlight {
+    @apply ml-1 rounded-lg bg-gray-100 p-2 font-mono;
+  }
+
+  .error {
+    @apply w-full text-center text-red-600;
+  }
+
+  .input {
+    @apply custom-focus w-full rounded-xl border border-slate-300 focus:shadow-none;
+  }
+
+  .link {
+    @apply custom-focus rounded-md font-semibold text-green-400;
+  }
+
+  .row {
+    @apply flex flex-row items-center justify-start gap-1;
+  } */
+}
