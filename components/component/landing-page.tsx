@@ -16,7 +16,7 @@ export default function LandingPage() {
           <div className="">
             <div className="flex flex-col items-center gap-2 text-center">
               <h1 className="text-3xl font-normal tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                Welcome to <span className='font-[600]'>Ur<span className='text-accent font-[800]'>Gig</span></span>.
+                Welcome to <span className='font-[600]'>Ur<span className='text-primary font-[800]'>Gig</span></span>.
               </h1>
               <p className="mx-auto max-w-[700px] text-zinc-500 md:text-xl dark:text-zinc-400">
                 The best freelance platform out there.

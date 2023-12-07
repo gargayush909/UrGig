@@ -118,7 +118,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
       
       <div className="flex justify-center items-center flex-col lg:w-[550px] w-full gap-4 p-12 rounded-2xl shadow-2xl shadow-gray-100">
          
-        <h1 className="text-3xl font-[800] pb-4">Projects Listed</h1>
+        <h1 className="text-3xl font-[800] pb-4"><span className='text-primary'>Projects</span> Listed</h1>
         {userProjects.length === 0 ? <h1 className="text-lg text-center">You have no projects listed.<br/><Link className="underline" href="/add-project">Add a project here.</Link></h1> : userProjects.map((e, i) => 
           <div key={i} className='px-6 py-4 w-full rounded-[var(--radius)] border-secondary border-[1px] hover:bg-accent/[2%] transition-all duration-300 ease-in-out'>
             <Link href={`/projects/${e.title}`} className="hover:text-accent transition-all duration-100 ease-in-out">
@@ -150,7 +150,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
       null
       }
       <div className="flex justify-center items-center flex-col lg:w-[450px] w-full gap-4 p-12 rounded-2xl shadow-2xl shadow-gray-100">
-        <h1 className="text-3xl font-[800]">Account Settings</h1>
+        <h1 className="text-3xl font-[800]"><span className='text-primary'>Account</span> Settings</h1>
         <div className='w-full'>
           <Label htmlFor="email">Email</Label>
           <Input id="email" type="text" value={session?.user.email} disabled />
