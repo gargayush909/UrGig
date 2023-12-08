@@ -19,15 +19,12 @@ export default function HeaderClient({ session }: { session: Session | null }) {
           <UrGigLogo></UrGigLogo>
         </Link>
         <div className='hidden gap-8 lg:flex'>
-            {/* <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
-              Home
-            </Link>
-            <Link className="text-sm font-medium hover:underline underline-offset-4" href="/courses">
+            <Link className="text-sm font-medium hover:underline underline-offset-4" href="/projects">
               All Projects
             </Link>
-            <Link className="text-sm font-medium hover:underline underline-offset-4" href="/contact">
+            <Link className="text-sm font-medium hover:underline underline-offset-4" href="/add-project">
               Add Project
-            </Link> */}
+            </Link>
           </div>
         </div>
         

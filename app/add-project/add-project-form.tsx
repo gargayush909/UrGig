@@ -6,44 +6,56 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button'
 import { Textarea } from "@/components/ui/textarea"
-import type { PostgrestError } from '@supabase/supabase-js'
-import { Limelight } from 'next/font/google'
 import Link from 'next/link'
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useRouter } from 'next/navigation'
+
+const validationSchema = Yup.object({
+  title: Yup.string().required('Title is required'),
+  description: Yup.string().required('Description is required'),
+  image: Yup.string().url('Enter a valid URL').required('Image URL is required'),
+  price: Yup.number().required('Price is required'),
+  delivery: Yup.date().required('Expected Date of Project Completion is required'),
+  location: Yup.string().required('Location is required'),
+});
 
 export default function AddProjectForm({ session }: { session: Session | null }) {
 
   const supabase = createClientComponentClient<Database>()
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
-  const [title, setTitle] = useState<string | null>('')
-  const [description, setDescription] = useState<string | null>('')
-  const [image, setImage] = useState<string | null>('')
-  const [price, setPrice] = useState<string | null>('')
-  const [delivery, setDelivery] = useState<string | null>('')
-  const [location, setLocation] = useState<string | null>('')
-  const [partTime, setPartTime] = useState<boolean | null>(false)
+  const [successMessage, setSuccessMessage] = useState("");
   const user = session?.user
 
   useEffect(() => {
     setLoading(false)
   }, [])
 
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      description: '',
+      image: '',
+      price: 0,
+      delivery: '',
+      location: '',
+      part_time: false,
+    },
+    validationSchema,
+    onSubmit: addProject,
+  })
+
   async function addProject() {
     try {
       setLoading(true)
 
       const { error } = await supabase.from('projects').insert({
-        user_id: user?.id as string,
-        title,
-        description,
-        image,
-        price,
-        delivery,
-        location,
-        part_time: partTime,
+        user_id: user?.id,
+        ...formik.values,
       })
-      
-      if (error) throw error
-      alert('Project added!')
+      if (error) {throw error}
+      setSuccessMessage("Project listed successfully!")
       // You can perform additional actions after adding the project if needed
     } catch (error : any) {
       alert(`Error adding the project...\n${error.message}`)
@@ -52,6 +64,7 @@ export default function AddProjectForm({ session }: { session: Session | null })
     }
   }
 
+
   return (
     <>
     {session ?
@@ -59,82 +72,120 @@ export default function AddProjectForm({ session }: { session: Session | null })
      {user?.user_metadata.buyer.toString().toLowerCase().startsWith('f') ? 
      <>
       <div className='flex justify-center items-center min-w-screen px-8 py-24'>
-        <div className="flex justify-center items-center flex-col lg:w-[750px] w-full gap-4 p-12 rounded-2xl shadow-2xl shadow-gray-100">
-          <h1 className="text-5xl w-full font-[800] text-center">List Your Project<br/><span className="text-base font-[400] pb-2">This will help you in finding people who are willing to work!</span></h1>
-          <div className='w-full pt-6'>
-            <Label htmlFor="title">Project{"'"}s Title</Label>
-            <Input
-              id="title"
-              type="text"
-              value={title || ''}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-          <div className='w-full'>
-            <Label htmlFor="description">Project{"'"}s Description</Label>
-            <Textarea
-              id="description"
-              value={description || ''}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div className='w-full'>
-            <Label htmlFor="image">Project{"'"}s Image URL</Label>
-            <Input
-              id="image"
-              type="text"
-              value={image || ''}
-              onChange={(e) => setImage(e.target.value)}
-            />
-          </div>
-          <div className='w-full'>
-            <Label htmlFor="price">Price (For Project Completion)</Label>
-            <Input
-              id="price"
-              type="number"
-              value={price || ''}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-          </div>
-          <div className='w-full'>
-            <Label htmlFor="delivery">Expected Date of Project Completion</Label>
-            <Input
-              id="delivery"
-              type="date"
-              value={delivery || ''}
-              onChange={(e) => setDelivery(e.target.value)}
-            />
-          </div>
-          <div className='w-full'>
-            <Label htmlFor="location">Location (On Site/Remote)</Label>
-            <Input
-              id="location"
-              type="text"
-              value={location || ''}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </div>
-          <div className='w-full'>
-            <Label htmlFor="partTime">Are you hiring a part-time employee?</Label>
-            <Input
-              id="partTime"
-              type="checkbox"
-              checked={partTime || false}
-              onChange={(e) => setPartTime(e.target.checked)}
-              className='self-start text-left w-6 h-6 border-primary'
-            />
-          </div>
-          <div className='w-full pt-4'>
-            <Button
-              className="w-full"
-              onClick={addProject}
-              disabled={loading}
-              variant={"secondary"}
-            >
-              {loading ? 'Loading ...' : 'List Your Project'}
-            </Button>
-          </div>
-        </div>
+      <div className="flex justify-center items-center flex-col lg:w-[750px] w-full gap-4 p-12 rounded-2xl shadow-2xl shadow-gray-100">
+                  <div className="text-5xl w-full font-[800] text-center inline-flex flex-col gap-3">
+                    <h1>List A <span className="text-primary">Project</span></h1>
+                    <span className="text-base font-[400] pb-2">This will help you in finding people who are willing to work!</span>
+                  </div>
+                  <div className='w-full pt-6'>
+                    <Label htmlFor="title">Project{"'"}s Title</Label>
+                    <Input
+                      id="title"
+                      type="text"
+                      value={formik.values.title}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.title && formik.errors.title && (
+                      <div className="error-message text-xs text-right text-destructive pt-1">{formik.errors.title}</div>
+                    )}
+                  </div>
+                  <div className='w-full'>
+                    <Label htmlFor="description">Project{"'"}s Description</Label>
+                    <Textarea
+                      id="description"
+                      value={formik.values.description}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.description && formik.errors.description && (
+                      <div className="error-message text-xs text-right text-destructive pt-1">{formik.errors.description}</div>
+                    )}
+                  </div>
+                  <div className='w-full'>
+                    <Label htmlFor="image">Project{"'"}s Image URL</Label>
+                    <Input
+                      id="image"
+                      type="text"
+                      value={formik.values.image}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.image && formik.errors.image && (
+                      <div className="error-message text-xs text-right text-destructive pt-1">{formik.errors.image}</div>
+                    )}
+                  </div>
+                  <div className='w-full'>
+                    <Label htmlFor="price">Price (For Project Completion)</Label>
+                    <Input
+                      id="price"
+                      type="number"
+                      value={formik.values.price}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.price && formik.errors.price && (
+                      <div className="error-message text-xs text-right text-destructive pt-1">{formik.errors.price}</div>
+                    )}
+                  </div>
+                  <div className='w-full'>
+                    <Label htmlFor="delivery">Expected Date of Project Completion</Label>
+                    <Input
+                      id="delivery"
+                      type="date"
+                      value={formik.values.delivery}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.delivery && formik.errors.delivery && (
+                      <div className="error-message text-xs text-right text-destructive pt-1">{formik.errors.delivery}</div>
+                    )}
+                  </div>
+                  <div className='w-full'>
+                    <Label htmlFor="location">Location (On Site/Remote)</Label>
+                    <Input
+                      id="location"
+                      type="text"
+                      value={formik.values.location}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.location && formik.errors.location && (
+                      <div className="error-message text-xs text-right text-destructive pt-1">{formik.errors.location}</div>
+                    )}
+                  </div>
+                  <div className='w-full'>
+                    <Label htmlFor="part_time">Are you hiring a part-time employee?</Label>
+                    <Input
+                      id="part_time"
+                      type="checkbox"
+                      checked={formik.values.part_time}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className='self-start text-left w-6 h-6 border-primary'
+                    />
+                    {formik.touched.part_time && formik.errors.part_time && (
+                      <div className="error-message text-xs text-right text-destructive pt-1">{formik.errors.part_time}</div>
+                    )}
+                  </div>
+                  <div className='w-full pt-4'>
+                    <Button
+                      className="w-full"
+                      onClick={() => {formik.handleSubmit()}}
+                      disabled={loading || !formik.isValid}
+                      variant={"secondary"}
+                    >
+                      {loading ? 'Loading ...' : 'List Your Project'}
+                    </Button>
+                  </div>
+                  {successMessage === "" ?
+                   null
+                   :
+                   <div className='flex justify-center items-center flex-col gap-1'>
+                    <h1 className='text-base text-primary text-center'>{successMessage}</h1>
+                    <Link className="text-sm" href={'/account'}>Click here to view your project listings</Link>                   
+                   </div>}
+                </div>
     </div>
      </> 
      : 

@@ -10,6 +10,8 @@ import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { FcGoogle } from 'react-icons/fc';
+import { Input } from '../ui/input';
+import { Label } from "@/components/ui/label"
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -54,31 +56,36 @@ const SignIn = () => {
           onSubmit={signIn}
         >
           {({ errors, touched, isSubmitting }) => (
-            <Form className="w-full flex flex-col gap-2">
-              <label htmlFor="email">Email</label>
-              <Field
-                className={cn('input p-2 rounded-lg', errors.email && touched.email && 'bg-red-50')}
-                id="email"
-                name="email"
-                placeholder="hello@gmail.com"
-                type="email"
-              />
-              {errors.email && touched.email ? (
-                <div className="text-red-600 text-xs w-full text-right">{errors.email}</div>
-              ) : null}
-              <label htmlFor="email">Password</label>
-              <Field
-                className={cn('input p-2 rounded-lg', errors.password && touched.password && 'bg-red-50')}
-                id="password"
-                name="password"
-                type="password"
-                placeholder="********"
-              />
-              {errors.password && touched.password ? (
-                <div className="text-red-600 text-xs w-full text-right">{errors.password}</div>
-              ) : null}
-              <br/>
-              <Button variant={"outline"} className="w-full hover:text-background hover:bg-primary" type="submit" disabled={isSubmitting}>
+            <Form className="w-full flex flex-col gap-4">
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Field
+                  as={Input}
+                  className={cn('input p-2 rounded-lg', errors.email && touched.email && 'bg-red-50')}
+                  id="email"
+                  name="email"
+                  placeholder="hello@gmail.com"
+                  type="email"
+                />
+                {errors.email && touched.email ? (
+                  <div className="text-red-600 text-xs w-full text-right">{errors.email}</div>
+                ) : null}
+              </div>
+              <div>
+                <Label htmlFor="email">Password</Label>
+                <Field
+                  as={Input}
+                  className={cn('input p-2 rounded-lg mb-4', errors.password && touched.password && 'bg-red-50')}
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="********"
+                />
+                {errors.password && touched.password ? (
+                  <div className="text-red-600 text-xs w-full text-right">{errors.password}</div>
+                ) : null}
+              </div>
+              <Button variant={"secondary"} className="w-full" type="submit" disabled={isSubmitting}>
                 Submit
               </Button>
             </Form>
@@ -90,7 +97,6 @@ const SignIn = () => {
             Do not have an account?
           </Button>
         </Link>
-        <br></br>
         {errorMsg && <div className="text-red-600 text-center">{errorMsg}</div>}
       </div>
     </div>

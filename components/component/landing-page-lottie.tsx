@@ -8,7 +8,8 @@ export default function LandingPageLottie() {
     const options = {
         animationData:LandingPageLottieFile,
         className:'xl:w-[550px] lg:w-[300px] w-full h-auto hue-rotate-[20deg] -z-10',
-        loop:true
+        loop:true,
+        speed: 0.5
     }
     const { View } = useLottie(options);
 

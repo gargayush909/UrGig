@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/select"
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation"
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -84,52 +86,64 @@ const SignUp = () => {
           onSubmit={signUp}
         >
           {({ errors, touched, isSubmitting }) => (
-            <Form className="w-full flex flex-col gap-2">
-              <label htmlFor="name">Name</label>
-              <Field
-                className={cn('input p-2 rounded-lg', errors.name && touched.name && 'bg-red-50')}
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Harjot Singh"
-              >
-              </Field>
-              {errors.name && touched.name ? (
-                <div className="text-red-600 text-xs w-full text-right">{errors.name}</div>
-              ) : null}
-              <label htmlFor="email">Email</label>
-              <Field
-                className={cn('input p-2 rounded-lg', errors.email && touched.email && 'bg-red-50')}
-                id="email"
-                name="email"
-                placeholder="hello@gmail.com"
-                type="email"
-              />
-              {errors.email && touched.email ? (
-                <div className="text-red-600 text-xs w-full text-right">{errors.email}</div>
-              ) : null}
-              <label htmlFor="password">Password</label>
-              <Field
-                className={cn('input p-2 rounded-lg', errors.password && touched.password && 'bg-red-50')}
-                id="password"
-                name="password"
-                type="password"
-                placeholder="********"
-              />
-              {errors.password && touched.password ? (
-                <div className="text-red-600 text-xs w-full text-right">{errors.password}</div>
-              ) : null}
-              <label htmlFor="buyer">Are you looking for work?</label>
-              <Field
-                className={cn('input p-2 rounded-lg w-4 h-4 self-start', errors.buyer && touched.buyer && 'bg-red-50')}
-                id="buyer"
-                name="buyer"
-                type="checkbox"
-              >
-              </Field>
-              {errors.buyer && touched.buyer ? (
-                <div className="text-red-600 text-xs w-full text-right">{errors.buyer}</div>
-              ) : null}
+            <Form className="w-full flex flex-col gap-4">
+              <div>
+                <Label htmlFor="name">Name</Label>
+                <Field
+                  as={Input}
+                  className={cn('input p-2 rounded-lg', errors.name && touched.name && '')}
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Ayush Garg"
+                >
+                </Field>
+                {errors.name && touched.name ? (
+                  <div className="text-red-600 text-xs w-full text-right">{errors.name}</div>
+                ) : null}
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Field
+                  as={Input}
+                  className={cn('input p-2 rounded-lg', errors.email && touched.email && '')}
+                  id="email"
+                  name="email"
+                  placeholder="hello@gmail.com"
+                  type="email"
+                />
+                {errors.email && touched.email ? (
+                  <div className="text-red-600 text-xs w-full text-right">{errors.email}</div>
+                ) : null}
+              </div>
+              <div>
+                <Label htmlFor="password">Password</Label>
+                <Field
+                  as={Input}
+                  className={cn('input p-2 rounded-lg', errors.password && touched.password && '')}
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="********"
+                />
+                {errors.password && touched.password ? (
+                  <div className="text-red-600 text-xs w-full text-right">{errors.password}</div>
+                ) : null}
+              </div>
+              <div>
+                <Label htmlFor="buyer">Are you a freelancer?</Label>
+                <Field
+                  as={Input}
+                  className={cn('input p-2 rounded-lg w-4 h-4 self-start', errors.buyer && touched.buyer && '')}
+                  id="buyer"
+                  name="buyer"
+                  type="checkbox"
+                >
+                </Field>
+                {errors.buyer && touched.buyer ? (
+                  <div className="text-red-600 text-xs w-full text-right">{errors.buyer}</div>
+                ) : null}
+              </div>
               
               {/* <Select>
                   <SelectTrigger className="w-full rounded-lg text-md text-">
