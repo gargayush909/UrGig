@@ -4,7 +4,6 @@ import './globals.css'
 import { cn } from '@/lib/utils';
 import Footer from '@/components/component/footer';
 import Header from '@/components/component/header';
-import { EdgeStoreProvider } from '../lib/edgestore';
 
 const outfit = Raleway({variable: "--font-outfit", subsets:["latin"]});
 
@@ -25,9 +24,7 @@ export default function RootLayout({
           outfit.className
         )}>
           <Header></Header>
-            <EdgeStoreProvider>
               {children}
-            </EdgeStoreProvider>
           <Footer></Footer>
       </body>
     </html>
