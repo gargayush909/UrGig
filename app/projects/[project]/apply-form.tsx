@@ -64,7 +64,7 @@ const ApplicationForm = ({session, project, uploaderUser} : {session: Session | 
   return (
     <>
     {
-      session?.user.id !== uploaderUser?.id ? 
+      session?.user.user_metadata.buyer ? 
       <>
         <Formik
             initialValues={initialValues}
