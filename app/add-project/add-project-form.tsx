@@ -72,7 +72,7 @@ export default function AddProjectForm({
   async function addProject() {
     try {
       setLoading(true)
-      const tagsArray = formik.values.tags.map((tag) => tag.trim());
+      const tagsArray = formik.values.tags.map((tag : string) => tag.trim());
       const { error } = await supabase.from('projects').insert({
         user_id: user?.id,
         ...formik.values,
