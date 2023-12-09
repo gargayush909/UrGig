@@ -4,11 +4,7 @@ import { Database } from '@/types/supabase'
 import ProjectForm from './project-form'
 import ApplicationForm from './apply-form'
 
-export async function generateStaticParams({
-  params,
-}: {
-  params: { project: string }
-}) {
+export async function generateStaticParams() {
   const projects = await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL + "/rest/v1/" + "projects?select=*", 
   {cache: "force-cache", headers: {
     "Content-Type": "application/json",
