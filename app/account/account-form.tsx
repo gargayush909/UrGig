@@ -28,19 +28,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import {useRouter} from "next/navigation"
-import { FaRegUser } from "react-icons/fa";
-import { FiPhone } from "react-icons/fi";
-import { TfiWorld } from "react-icons/tfi";
-import { RiDeleteBin2Line } from "react-icons/ri";
+} from '@/components/ui/alert-dialog'
+import { useRouter } from 'next/navigation'
+import { FaRegUser } from 'react-icons/fa'
+import { FiPhone } from 'react-icons/fi'
+import { TfiWorld } from 'react-icons/tfi'
+import { RiDeleteBin2Line } from 'react-icons/ri'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { BsTextParagraph } from "react-icons/bs";
-
+} from '@/components/ui/popover'
+import { BsTextParagraph } from 'react-icons/bs'
 
 export default function AccountForm({
   session,
@@ -63,16 +62,23 @@ export default function AccountForm({
   const [username, setUsername] = useState<string>(userProfile.username)
   const [website, setWebsite] = useState<string>(userProfile.website)
 
-  async function handleApplicationsDeletion( e : any ) {
+  async function handleApplicationsDeletion(e: any) {
     try {
       setLoading(true)
-      const { error: error } = await supabase.from('applications').delete().match({ project_id: e.project_id }).filter('id', 'neq', e.id)
-      const { error: error2 } = await supabase.from('applications').update({selected: true}).eq("id", e.id)
+      const { error: error } = await supabase
+        .from('applications')
+        .delete()
+        .match({ project_id: e.project_id })
+        .filter('id', 'neq', e.id)
+      const { error: error2 } = await supabase
+        .from('applications')
+        .update({ selected: true })
+        .eq('id', e.id)
       if (error) throw error
       if (error2) throw error2
       alert('All other applications deleted for the project.')
       router.refresh()
-    } catch (error : any){
+    } catch (error: any) {
       console.error(error)
       alert(`Error occured:\n${error.message}`)
       throw error
@@ -84,11 +90,14 @@ export default function AccountForm({
   async function handleProjectDeletion(e: any) {
     try {
       setLoading(true)
-      const { error: error } = await supabase.from('projects').delete().eq('id', e.id)
+      const { error: error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', e.id)
       if (error) throw error
       alert(`Project listing for ${e.title} delted successfully`)
       router.refresh()
-    } catch (error : any){
+    } catch (error: any) {
       console.error(error)
       alert(`Error occured:\n${error.message}`)
       throw error
@@ -100,11 +109,14 @@ export default function AccountForm({
   async function handleApplicationDeletion(e: any) {
     try {
       setLoading(true)
-      const { error: error } = await supabase.from('applications').delete().eq('id', e.id)
+      const { error: error } = await supabase
+        .from('applications')
+        .delete()
+        .eq('id', e.id)
       if (error) throw error
       alert(`Application listing delted successfully`)
       router.refresh()
-    } catch (error : any){
+    } catch (error: any) {
       console.error(error)
       alert(`Error occured:\n${error.message}`)
       throw error
@@ -204,31 +216,40 @@ export default function AccountForm({
                     key={i}
                     className="px-6 py-4 w-full rounded-[var(--radius)] border-secondary border-[1px] transition-all duration-300 ease-in-out"
                   >
-                    <div
-                      className="inline-flex justify-between items-center w-full"
-                    >
+                    <div className="inline-flex justify-between items-center w-full">
                       <Link
-                      href={`/projects/${e.title}`}
-                      className="inline-flex justify-between items-center">
-                      <h1 className="text-2xl font-semibold inline-flex flex-row items-center gap-1 line-clamp-1 hover:underline hover:text-primary transition-all duration-100 ease-in-out">
-                        {e.title}
-                        <FiArrowUpRight />
-                      </h1> 
+                        href={`/projects/${e.title}`}
+                        className="inline-flex justify-between items-center"
+                      >
+                        <h1 className="text-2xl font-semibold inline-flex flex-row items-center gap-1 line-clamp-1 hover:underline hover:text-primary transition-all duration-100 ease-in-out">
+                          {e.title}
+                          <FiArrowUpRight />
+                        </h1>
                       </Link>
                       <AlertDialog>
-                        <AlertDialogTrigger className='p-2 border-[1px] border-destructive rounded-[var(--radius)] hover:bg-destructive/10 text-sm transition-colors ease-in-out duration-300'>
+                        <AlertDialogTrigger className="p-2 border-[1px] border-destructive rounded-[var(--radius)] hover:bg-destructive/10 text-sm transition-colors ease-in-out duration-300">
                           <RiDeleteBin2Line />
                         </AlertDialogTrigger>
                         <AlertDialogContent className="border-destructive">
                           <AlertDialogHeader>
                             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Doing this will <i>permanently</i> delete your project listing<b> {e.title}</b>.
+                              Doing this will <i>permanently</i> delete your
+                              project listing<b> {e.title}</b>.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel className="hover:bg-background border-destructive">Cancel</AlertDialogCancel>
-                            <AlertDialogAction className="bg-destructive hover:bg-destructive/80 text-background" onClick={() => {handleProjectDeletion(e)}}>Continue</AlertDialogAction>   
+                            <AlertDialogCancel className="hover:bg-background border-destructive">
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-destructive hover:bg-destructive/80 text-background"
+                              onClick={() => {
+                                handleProjectDeletion(e)
+                              }}
+                            >
+                              Continue
+                            </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
@@ -274,71 +295,102 @@ export default function AccountForm({
                   <span className="text-primary">Applications</span> Recieved
                 </h1>
                 {applicationsRecievedData.map((e, i) => (
-                      <div
-                        key={i}
-                        className="px-6 py-4 w-full rounded-[var(--radius)] border-secondary border-[1px] transition-all duration-300 ease-in-out"
-                      >
-                        <div className="inline-flex w-full justify-between items-center">
-                          
-                            <h1 className="text-lg font-semibold inline-flex flex-row items-center gap-1 line-clamp-1">
-                              <span className="text-lg tracking-wide">{e.selected ? e.applicant_name :"Someone"} applied for</span>
-                              <Link href={`/projects/${e.project_title}`} className="hover:text-primary underline transition-all duration-100 ease-in-out">{e.project_title}</Link>
-                            </h1>
-                          
-                          {e.selected ? 
-                          <>
-                          <Badge variant="secondary">Application Selected</Badge>
-                          </>
-                          :
-                          <AlertDialog>
-                            <AlertDialogTrigger className='px-4 py-1 border-[1px] border-primary rounded-[var(--radius)] hover:bg-primary text-sm transition-colors ease-in-out duration-300'>
-                              Select This Application
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  Doing this will assign your project <b>{e.project_title}</b> to this applicant and all other applications for <b>{e.project_title}</b> will be deleted.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => {handleApplicationsDeletion(e)}}>Continue</AlertDialogAction>   
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                          }
-                          
-                        </div>
-                        <div className="text-sm pt-1">
-                          {e.application_content.split("\n").map((e :string, i: number) => <p key={i} className='pt-2'>{e}</p>)}
-                        </div>
-                        <h1 className="text-base font-semibold pt-4">Project Details</h1>
-                        <div className="flex flex-row flex-wrap pt-2 md:gap-4 gap-2 justify-between ">
-                          <div className="inline-flex items-center gap-1">
-                            <CiLocationOn className="w-5 h-5" />
-                            <span className="font-semibold">{e.project_location}</span>
-                          </div>
-                          <div className="inline-flex items-center gap-1">
-                            <CiMoneyBill className="w-5 h-5" />
-                            <span className="font-mono font-extralight">
-                              {e.project_price} INR
-                            </span>
-                          </div>
-                          <div className="inline-flex items-center gap-1">
-                            <ClockIcon className="w-5 h-5" />
-                            <span className="font-mono font-extralight">
-                              {new Date(e.application_created_at).toDateString()}
-                            </span>
-                          </div>
-                        </div>
-                        {e.selected ? 
-                        <div className="pt-4">
-                          <h1 className="text-xl font-semibold">Selected Applicant Details</h1>
-                          <div className="flex flex-row flex-wrap pt-4 md:gap-4 gap-2 justify-between ">
+                  <div
+                    key={i}
+                    className="px-6 py-4 w-full rounded-[var(--radius)] border-secondary border-[1px] transition-all duration-300 ease-in-out"
+                  >
+                    <div className="inline-flex w-full justify-between items-center">
+                      <h1 className="text-lg font-semibold inline-flex flex-row items-center gap-1 line-clamp-1">
+                        <span className="text-lg tracking-wide">
+                          {e.selected ? e.applicant_name : 'Someone'} applied
+                          for
+                        </span>
+                        <Link
+                          href={`/projects/${e.project_title}`}
+                          className="hover:text-primary underline transition-all duration-100 ease-in-out"
+                        >
+                          {e.project_title}
+                        </Link>
+                      </h1>
+
+                      {e.selected ? (
+                        <>
+                          <Badge variant="secondary">
+                            Application Selected
+                          </Badge>
+                        </>
+                      ) : (
+                        <AlertDialog>
+                          <AlertDialogTrigger className="px-4 py-1 border-[1px] border-primary rounded-[var(--radius)] hover:bg-primary text-sm transition-colors ease-in-out duration-300">
+                            Select This Application
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Doing this will assign your project{' '}
+                                <b>{e.project_title}</b> to this applicant and
+                                all other applications for{' '}
+                                <b>{e.project_title}</b> will be deleted.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => {
+                                  handleApplicationsDeletion(e)
+                                }}
+                              >
+                                Continue
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      )}
+                    </div>
+                    <div className="text-sm pt-1">
+                      {e.application_content
+                        .split('\n')
+                        .map((e: string, i: number) => (
+                          <p key={i} className="pt-2">
+                            {e}
+                          </p>
+                        ))}
+                    </div>
+                    <h1 className="text-base font-semibold pt-4">
+                      Project Details
+                    </h1>
+                    <div className="flex flex-row flex-wrap pt-2 md:gap-4 gap-2 justify-between ">
+                      <div className="inline-flex items-center gap-1">
+                        <CiLocationOn className="w-5 h-5" />
+                        <span className="font-semibold">
+                          {e.project_location}
+                        </span>
+                      </div>
+                      <div className="inline-flex items-center gap-1">
+                        <CiMoneyBill className="w-5 h-5" />
+                        <span className="font-mono font-extralight">
+                          {e.project_price} INR
+                        </span>
+                      </div>
+                      <div className="inline-flex items-center gap-1">
+                        <ClockIcon className="w-5 h-5" />
+                        <span className="font-mono font-extralight">
+                          {new Date(e.application_created_at).toDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    {e.selected ? (
+                      <div className="pt-4">
+                        <h1 className="text-xl font-semibold">
+                          Selected Applicant Details
+                        </h1>
+                        <div className="flex flex-row flex-wrap pt-4 md:gap-4 gap-2 justify-between ">
                           <div className="inline-flex items-center gap-1">
                             <FaRegUser className="w-5 h-5" />
-                            <span className="font-semibold">{e.applicant_name}</span>
+                            <span className="font-semibold">
+                              {e.applicant_name}
+                            </span>
                           </div>
                           <div className="inline-flex items-center gap-1">
                             <FiPhone className="w-5 h-5" />
@@ -348,23 +400,27 @@ export default function AccountForm({
                           </div>
                           <div className="inline-flex items-center gap-1">
                             <IoDocumentTextOutline className="w-5 h-5" />
-                            <Link href={e.applicant_resume} className="font-semibold underline">
-                            Resume
+                            <Link
+                              href={e.applicant_resume}
+                              className="font-semibold underline"
+                            >
+                              Resume
                             </Link>
                           </div>
                           <div className="inline-flex items-center gap-1">
                             <TfiWorld className="w-5 h-5" />
-                            <Link href={e.applicant_website} className="font-semibold underline">
-                            Website  
+                            <Link
+                              href={e.applicant_website}
+                              className="font-semibold underline"
+                            >
+                              Website
                             </Link>
                           </div>
                         </div>
-                        </div>
-                        : null
-                        }
-                        
                       </div>
-                    ))}
+                    ) : null}
+                  </div>
+                ))}
               </div>
             ) : null}
           </div>
@@ -392,19 +448,29 @@ export default function AccountForm({
                       </Link>
                     </h1>
                     <AlertDialog>
-                      <AlertDialogTrigger className='p-2 border-[1px] border-destructive rounded-[var(--radius)] hover:bg-destructive/10 text-sm transition-colors ease-in-out duration-300'>
+                      <AlertDialogTrigger className="p-2 border-[1px] border-destructive rounded-[var(--radius)] hover:bg-destructive/10 text-sm transition-colors ease-in-out duration-300">
                         <RiDeleteBin2Line />
                       </AlertDialogTrigger>
                       <AlertDialogContent className="border-destructive">
                         <AlertDialogHeader>
                           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Doing this will <b>permanently delete</b> your application listing for <b> {e.title}</b>.
+                            Doing this will <b>permanently delete</b> your
+                            application listing for <b> {e.title}</b>.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel className="hover:bg-background border-destructive">Cancel</AlertDialogCancel>
-                          <AlertDialogAction className="bg-destructive hover:bg-destructive/80 text-background" onClick={() => {handleApplicationDeletion(e)}}>Continue</AlertDialogAction>   
+                          <AlertDialogCancel className="hover:bg-background border-destructive">
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-destructive hover:bg-destructive/80 text-background"
+                            onClick={() => {
+                              handleApplicationDeletion(e)
+                            }}
+                          >
+                            Continue
+                          </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -438,14 +504,21 @@ export default function AccountForm({
                     <div className="inline-flex items-center gap-1">
                       <BsTextParagraph className="w-5 h-5" />
                       <Popover>
-    <PopoverTrigger className="font-semibold underline">Application Content</PopoverTrigger>
-    <PopoverContent className="lg:w-[550px]">
-      {e.application_content.split("\n").map((e2 : any, i2 : number) => <p className='pt-2 text-xs' key={i2}>{e2}</p>)}
-      </PopoverContent>
-  </Popover> 
+                        <PopoverTrigger className="font-semibold underline">
+                          Application Content
+                        </PopoverTrigger>
+                        <PopoverContent className="lg:w-[550px]">
+                          {e.application_content
+                            .split('\n')
+                            .map((e2: any, i2: number) => (
+                              <p className="pt-2 text-xs" key={i2}>
+                                {e2}
+                              </p>
+                            ))}
+                        </PopoverContent>
+                      </Popover>
                     </div>
                   </div>
-                     
                 </div>
               ))}
           <div className="px-6 py-4 w-full rounded-[var(--radius)] border-secondary border-[1px] transition-all duration-300 ease-in-out">
@@ -461,7 +534,6 @@ export default function AccountForm({
           </div>
         </div>
       )}
-      
     </div>
   )
 }

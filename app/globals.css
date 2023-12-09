@@ -47,7 +47,7 @@ html {
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
  
-    --primary: 163, 90%, 47%;
+    --primary: 163 90% 47%;
     --primary-foreground: var(--foreground);
  
     --secondary: 132 100% 84%;

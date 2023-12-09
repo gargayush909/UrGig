@@ -23,7 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from '@/components/ui/alert-dialog'
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Title is required'),
@@ -36,7 +36,10 @@ const validationSchema = Yup.object({
     'Expected Date of Project Completion is required'
   ),
   location: Yup.string().required('Location is required'),
-  tags: Yup.array().of(Yup.string()).required('Tags are required').required("At least one tag is required."),
+  tags: Yup.array()
+    .of(Yup.string())
+    .required('Tags are required')
+    .required('At least one tag is required.'),
 })
 
 export default function AddProjectForm({
@@ -63,7 +66,7 @@ export default function AddProjectForm({
       delivery: '',
       location: '',
       part_time: false,
-      tags: []
+      tags: [],
     },
     validationSchema,
     onSubmit: addProject,
@@ -72,7 +75,7 @@ export default function AddProjectForm({
   async function addProject() {
     try {
       setLoading(true)
-      const tagsArray = formik.values.tags.map((tag : string) => tag.trim());
+      const tagsArray = formik.values.tags.map((tag: string) => tag.trim())
       const { error } = await supabase.from('projects').insert({
         user_id: user?.id,
         ...formik.values,
@@ -242,30 +245,35 @@ export default function AddProjectForm({
                     )}
                   </div>
                   <div className="w-full pt-4">
-                  <AlertDialog>
-                    <AlertDialogTrigger 
-                    className="w-full bg-primary rounded-md py-2"
-                    disabled={loading || !formik.isValid}
-                    >
-                      {loading ? 'Loading ...' : 'List Your Project'}
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Project Listing Fee: 500 INR</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          A payment of 500 INR must be done in order to list a project on our website.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                        onClick={() => {
-                          formik.handleSubmit()
-                        }}
-                        >Continue</AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                    <AlertDialog>
+                      <AlertDialogTrigger
+                        className="w-full bg-primary rounded-md py-2"
+                        disabled={loading || !formik.isValid}
+                      >
+                        {loading ? 'Loading ...' : 'List Your Project'}
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Project Listing Fee: 500 INR
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            A payment of 500 INR must be done in order to list a
+                            project on our website.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => {
+                              formik.handleSubmit()
+                            }}
+                          >
+                            Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                     {/* <Button
                       className="w-full"
                       onClick={() => {

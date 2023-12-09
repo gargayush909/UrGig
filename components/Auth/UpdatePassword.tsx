@@ -1,31 +1,31 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cn } from '@/lib/utils';
-import { Field, Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
-import * as Yup from 'yup';
+import { useState } from 'react'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cn } from '@/lib/utils'
+import { Field, Form, Formik } from 'formik'
+import { useRouter } from 'next/navigation'
+import * as Yup from 'yup'
 
 const UpdatePasswordSchema = Yup.object().shape({
   password: Yup.string().required('Required'),
-});
+})
 
 const UpdatePassword = () => {
-  const supabase = createClientComponentClient();
-  const router = useRouter();
-  const [errorMsg, setErrorMsg] = useState('');
+  const supabase = createClientComponentClient()
+  const router = useRouter()
+  const [errorMsg, setErrorMsg] = useState('')
 
-  async function updatePassword(formData: {password : string}) {
+  async function updatePassword(formData: { password: string }) {
     const { error } = await supabase.auth.updateUser({
       password: formData.password,
-    });
+    })
 
     if (error) {
-      setErrorMsg(error.message);
+      setErrorMsg(error.message)
     } else {
       // Go to Home page
-      router.replace('/');
+      router.replace('/')
     }
   }
 
@@ -43,7 +43,10 @@ const UpdatePassword = () => {
           <Form className="column w-full">
             <label htmlFor="email">New Password</label>
             <Field
-              className={cn('input', errors.password && touched.password && 'bg-red-50')}
+              className={cn(
+                'input',
+                errors.password && touched.password && 'bg-red-50'
+              )}
               id="password"
               name="password"
               type="password"
@@ -59,7 +62,7 @@ const UpdatePassword = () => {
       </Formik>
       {errorMsg && <div className="text-red-600">{errorMsg}</div>}
     </div>
-  );
-};
+  )
+}
 
-export default UpdatePassword;
+export default UpdatePassword

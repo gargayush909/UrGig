@@ -18,13 +18,13 @@ export async function POST(request: Request) {
   } = await supabase.auth.getSession()
 
 
-    await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-  
-    return NextResponse.redirect(requestUrl.origin, {
-      status: 301,
-    })
-  
+  await supabase.auth.signInWithPassword({
+    email,
+    password,
+  })
+
+  return NextResponse.redirect(requestUrl.origin, {
+    status: 301,
+  })
+
 }

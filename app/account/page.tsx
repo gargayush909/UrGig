@@ -57,7 +57,7 @@ export default async function Account() {
         project_title: matchingApplication.title,
         project_price: matchingApplication.price,
         project_location: matchingApplication.location,
-        project_id: matchingApplication.id
+        project_id: matchingApplication.id,
       }
     }
     return project

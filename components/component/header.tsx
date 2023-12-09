@@ -11,8 +11,6 @@ export default async function Header() {
   const {
     data: { session },
   } = await supabase.auth.getSession()
-  
-  return (
-    <HeaderClient session={session}></HeaderClient>
-  )
+
+  return <HeaderClient session={session}></HeaderClient>
 }
