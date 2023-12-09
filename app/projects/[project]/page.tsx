@@ -10,8 +10,8 @@ export async function generateStaticParams() {
     "Content-Type": "application/json",
     "Apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   } as HeadersInit,
-}).then((res) => res.json())
-  return projects.map((x: {title: string}) => ({project: x.title}))
+}).then((res) => res.json()).catch((error) => {console.error(error); throw error})
+  return !!projects ? projects.map((x: {title: string}) => ({project: x.title})) : [{project: "Test 1"}]
 }
 
 export default async function Project({
