@@ -4,15 +4,18 @@ import { Database } from '@/types/supabase'
 import ProjectForm from './project-form'
 import ApplicationForm from './apply-form'
 
-export async function generateStaticParams() {
-  const supabase = createServerComponentClient<Database>({ cookies })
-  const { data: projects } = await supabase
-    .from('projects')
-    .select()
-
-  return projects?.map((post) => ({
-    post: post
-  })) || []
+export async function generateStaticParams({
+  params,
+}: {
+  params: { project: string }
+}) {
+  const projects = await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL + "/rest/v1/" + "projects?select=*", 
+  {cache: "force-cache", headers: {
+    "Content-Type": "application/json",
+    "Apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  } as HeadersInit,
+}).then((res) => res.json())
+  return projects.map((x: {title: string}) => ({project: x.title}))
 }
 
 export default async function Project({
