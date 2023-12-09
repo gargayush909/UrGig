@@ -9,13 +9,18 @@ export default async function Project({params} : {params : {project: string}}) {
   const {data: { session }} = await supabase.auth.getSession()
   const {data: project, error: projectError} = await supabase.from('projects').select().eq("title", decodeURI(params.project)).single()
   const {data: uploaderUser, error: uploaderUserError} = await supabase.from('profiles').select().eq("id", project?.user_id ?? "").single()
+  const { data: applicationsRecieved, error: applicationsRecievedError } =
+    await supabase
+      .from('applications')
+      .select()
+      .eq('project_owner_user_id', session?.user.id || '')
 
   return (
     <>
     {project ?
-    <div className='flex justify-center items-start min-w-screen px-8 pt-12 pb-24 lg:flex-row flex-col gap-16'>
+    <div className={`flex justify-center items-${!!applicationsRecieved ?"center" : "start"} min-w-screen px-8 pt-12 pb-24 lg:flex-${!!applicationsRecieved ?"col" : "row"} flex-col gap-16`}>
       <ProjectForm {...{session: session, project: projectError ? params.project : project, uploaderUser: uploaderUserError ? null : uploaderUser}}/>
-      <ApplicationForm {...{session: session, project: projectError ? params.project : project, uploaderUser: uploaderUserError ? null : uploaderUser}}/>
+      <ApplicationForm {...{session: session, project: projectError ? params.project : project, uploaderUser: uploaderUserError ? null : uploaderUser, applicationsRecieved: applicationsRecievedError ? [] : applicationsRecieved}}/>
     </div>
     :
     <div className='flex justify-center items-start min-w-screen px-8 pt-12 pb-24 lg:flex-row flex-col gap-16'>

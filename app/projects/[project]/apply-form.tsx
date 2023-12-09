@@ -9,6 +9,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { CiLocationOn, CiMoneyBill } from 'react-icons/ci';
+import { ClockIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
+import { FaRegUser } from 'react-icons/fa6';
+import { FiPhone } from 'react-icons/fi';
+import { IoDocumentTextOutline } from 'react-icons/io5';
+import { TfiWorld } from 'react-icons/tfi';
+import { Badge } from '@/components/ui/badge';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -20,7 +28,7 @@ const validationSchema = Yup.object().shape({
   applicationContent: Yup.string().required('Content is required').min(500).max(3000),
 });
 
-const ApplicationForm = ({session, project, uploaderUser} : {session: Session | null, project: any, uploaderUser: any}) => {
+const ApplicationForm = ({session, project, uploaderUser, applicationsRecieved} : {session: Session | null, project: any, uploaderUser: any, applicationsRecieved: any[]}) => {
   const supabase = createClientComponentClient();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -157,7 +165,34 @@ const ApplicationForm = ({session, project, uploaderUser} : {session: Session | 
         </Formik>
       </> 
       : 
-      null
+      <div>
+            {applicationsRecieved.length !== 0 ? (
+              <div className="flex justify-center items-center flex-col max-w-[1000px] w-full lg:gap-8 gap-4 p-12 rounded-2xl shadow-2xl shadow-gray-100">
+                <h1 className="text-3xl font-[800]">
+                  <span className="text-primary">Applications</span> Recieved
+                </h1>
+                <h1 className='text-left'>Please visit <Link className="underline hover:text-primary" href={"/account"}>dashboard</Link> for more actions.</h1>
+                {applicationsRecieved.map((e, i) => (
+                      <div
+                        key={i}
+                        className="px-6 py-4 w-full rounded-[var(--radius)] border-secondary border-[1px] transition-all duration-300 ease-in-out"
+                      >
+                        <div className="inline-flex w-full justify-between items-center">
+                          
+                            <h1 className="text-lg font-semibold inline-flex flex-row items-center gap-1 line-clamp-1">
+                              <span className="text-lg tracking-wide">Application {i+1}</span>
+                              <Link href={`/projects/${e.project_title}`} className="hover:text-primary underline transition-all duration-100 ease-in-out">{e.project_title}</Link>
+                            </h1>
+                        </div>
+                        <div className="text-sm pt-1">
+                          {e.application_content.split("\n").map((e :string, i: number) => <p key={i} className='pt-2'>{e}</p>)}
+                        </div>
+                        
+                      </div>
+                    ))}
+              </div>
+            ) : null}
+      </div>
     }
     </>
     
