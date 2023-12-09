@@ -4,6 +4,17 @@ import { Database } from '@/types/supabase'
 import ProjectForm from './project-form'
 import ApplicationForm from './apply-form'
 
+export async function generateStaticParams() {
+  const supabase = createServerComponentClient<Database>({ cookies })
+  const { data: projects } = await supabase
+    .from('projects')
+    .select()
+
+  return projects?.map((post) => ({
+    post: post
+  })) || []
+}
+
 export default async function Project({
   params,
 }: {
