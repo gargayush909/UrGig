@@ -6,6 +6,8 @@ import { Skeleton } from '../ui/skeleton'
 import { UrGigLogo } from './UrGigLogo'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
+import ReactSimplyCarousel from 'react-simply-carousel'
+import LandingPageCarouselSection from './landing-page-carousel-section'
 
 export default function LandingPage() {
   return (
@@ -49,6 +51,7 @@ export default function LandingPage() {
             <LandingPageLottie></LandingPageLottie>
           </div>
         </section>
+        <LandingPageCarouselSection></LandingPageCarouselSection>
       </main>
     </div>
   )

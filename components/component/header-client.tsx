@@ -33,6 +33,12 @@ export default function HeaderClient({ session }: { session: Session | null }) {
             >
               Add Project
             </Link>
+            <Link
+              className="text-sm font-medium hover:underline underline-offset-4"
+              href="/contact-us"
+            >
+              Contact Us
+            </Link>
           </div>
         </div>
 

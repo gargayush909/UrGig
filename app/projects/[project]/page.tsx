@@ -4,17 +4,6 @@ import { Database } from '@/types/supabase'
 import ProjectForm from './project-form'
 import ApplicationForm from './apply-form'
 
-export const dynamic = "force-dynamic"
-
-// export async function generateStaticParams() {
-//   const projects = await fetch(process.env.NEXT_PUBLIC_SUPABASE_URL + "/rest/v1/" + "projects?select=*", 
-//   {headers: {
-//     "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-//   } as HeadersInit,
-// }).then((res) => res.json())
-//   return !!projects ? projects.map((x: {title: string}) => ({project: x.title})) : [{project: "Test 1"}]
-// }
-
 export default async function Project({
   params,
 }: {
