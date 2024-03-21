@@ -20,7 +20,7 @@ const questionsAndAnswers = [
 export default function ChatWithUs({...props} : ComponentPropsWithoutRef<"div">) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<number[]>();
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
 
   const handleQuestionClick = (answerIndex : number) => {
     setSelectedAnswers([...selectedAnswers ?? [], answerIndex]);
