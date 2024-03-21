@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+"use client";
+import React, { ComponentPropsWithoutRef, useState } from 'react';
 import styles from './ChatWithUs.module.css'; // Add your CSS module
 
 const questionsAndAnswers = [
@@ -16,13 +17,13 @@ const questionsAndAnswers = [
     // Add more questions and answers
   ];
 
-export default function ChatWithUs() {
+export default function ChatWithUs({...props} : ComponentPropsWithoutRef<"div">) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>();
 
   const handleQuestionClick = (answerIndex : number) => {
-    setSelectedAnswers([...selectedAnswers, answerIndex]);
+    setSelectedAnswers([...selectedAnswers ?? [], answerIndex]);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
@@ -31,7 +32,7 @@ export default function ChatWithUs() {
   };
 
   return (
-    <div>
+    <div {...props}>
       <button onClick={toggleChat}>
         Chat with Us
       </button>

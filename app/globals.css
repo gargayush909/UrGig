@@ -12,12 +12,13 @@ html {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--background)) hsl(var(--foreground));
+  scrollbar-color: hsl(var(--primary)) hsl(var(--background));
 }
 
 
 *::-webkit-scrollbar {
   width: 10px;
+  border-radius: 20px;
 }
 
 *::-webkit-scrollbar-track {
@@ -29,6 +30,7 @@ html {
   background-color: hsl(var(--primary));
   border-radius: 10px;
   border: 3px solid hsl(var(--background));
+  border-radius: 20px;
 }
 
 @tailwind components;
